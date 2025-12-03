@@ -81,3 +81,26 @@ body {
     left: auto;
   }
 }
+/* --- BRAND CARD STYLES --- */
+
+/* 1. Smooth Lift Animation */
+.brand-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brand-card:hover {
+  transform: translateY(-10px); /* Moves Up */
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.15) !important; /* Casts a deeper shadow */
+}
+
+/* 2. The Icon Bubble Hover Effect */
+/* When hovering the card, make the bubble turn green! */
+.brand-card:hover .icon-box {
+  background-color: #e9f5ee !important; /* Very light green */
+  transition: background-color 0.3s ease;
+}
+
+/* 3. Small Text Tweak */
+.letter-spacing-1 {
+  letter-spacing: 1px;
+}
