@@ -3,38 +3,61 @@ import './index.css';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import About from './components/About';
-import VideoSection from './components/VideoSection';
 import Brands from './components/Brands';
-import SolarEstimator from './components/SolarEstimator'; 
-import Gallery from './components/Gallery'; 
+import Testimonials from './components/Testimonials';
 import FAQs from './components/FAQs'; 
 import CallToAction from './components/CallToAction'; 
-import Footer from './components/Footer'; // 1. Import Footer
+import Footer from './components/Footer';
+import Booking from './components/Booking';
+import Admin from './components/Admin';
+import AdminRegister from './components/AdminRegister';
+import AdminLogin from './components/AdminLogin';
 
 function App() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentPage = urlParams.get('page');
+
+  // Authentication & Role Checks
+  const isAuthenticated = sessionStorage.getItem('isAdminLoggedIn') === 'true';
+  const isSuperAdmin = sessionStorage.getItem('isSuperAdmin') === 'true';
+
+  // --- ROUTING LOGIC ---
+  
+  if (currentPage === 'booking') {
+    return <div className="App"><Booking /><Footer /></div>;
+  }
+
+  if (currentPage === 'admin-login') {
+    return <div className="App"><AdminLogin /><Footer /></div>;
+  }
+
+  if (currentPage === 'admin-register') {
+    if (!isAuthenticated || !isSuperAdmin) {
+      window.location.href = '/?page=admin-login';
+      return null;
+    }
+    return <div className="App"><AdminRegister /><Footer /></div>;
+  }
+
+  if (currentPage === 'admin') {
+    if (!isAuthenticated) {
+      window.location.href = '/?page=admin-login';
+      return null;
+    }
+    return <div className="App"><Admin /><Footer /></div>;
+  }
+
+  // Standard Landing Page - Refined Flow
   return (
-    <div>
+    <div className="App">
       <Navigation />
-      
       <Hero />
-      
       <About />
-      
-      <VideoSection />
-      
       <Brands />
-      
-      <SolarEstimator />
-
-      <Gallery /> 
-
+      <Testimonials />
       <FAQs />
-
       <CallToAction />
-      
-      {/* 2. Render Footer at the very bottom */}
       <Footer />
-      
     </div>
   );
 }

@@ -1,71 +1,100 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Navigation = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // LOGIC: Hide navbar on scroll down, show on scroll up
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+
+      // Check if we have scrolled past 50px for styling
+      setIsScrolled(currentScrollY > 50);
+
+      // Hide/Show logic
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false); // Scrolling down
+      } else {
+        setIsVisible(true); // Scrolling up
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+    return () => window.removeEventListener('scroll', controlNavbar);
+  }, [lastScrollY]);
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark navbar-custom bg-gradient-green fixed-top shadow-sm">
-      <div className="container-fluid"> 
-        
-        <a className="navbar-brand ps-3" href="#">GO GREEN SOLAR</a>
-        
+    <nav 
+      className={`navbar navbar-expand-lg navbar-dark navbar-custom ${!isVisible ? 'navbar-hidden' : ''} ${isScrolled ? 'shadow' : ''}`}
+      aria-label="Main navigation"
+    >
+      <div className="container">
+        {/* BRAND */}
+        <a className="navbar-brand d-flex align-items-center" href="/">
+          <span className="fw-bold tracking-tighter">GO GREEN SOLAR</span>
+        </a>
+
+        {/* MOBILE TOGGLE */}
         <button 
-          className="navbar-toggler border-0 pe-3" 
+          className="navbar-toggler border-0" 
           type="button" 
           data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav"
+          data-bs-target="#navbarMain" 
+          aria-controls="navbarMain" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto pe-3 align-items-center">
-            
+        {/* NAV LINKS */}
+        <div className="collapse navbar-collapse" id="navbarMain">
+          <ul className="navbar-nav ms-auto align-items-center">
             <li className="nav-item">
-              <a className="nav-link" href="#">Home</a>
+              <a className="nav-link px-3" href="/">HOME</a>
             </li>
-
             <li className="nav-item">
-              <a className="nav-link" href="#">About Us</a>
+              <a className="nav-link px-3" href="#about">ABOUT US</a>
             </li>
-
-            <li className="nav-item">
-              <a className="nav-link" href="#gallery">Gallery</a>
-            </li>
-
-            {/* SERVICES DROPDOWN */}
             <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                Services
+              <a 
+                className="nav-link dropdown-toggle px-3" 
+                href="#" 
+                id="servicesDropdown" 
+                role="button" 
+                data-bs-toggle="dropdown" 
+                aria-expanded="false"
+              >
+                SERVICES
               </a>
-              <ul className="dropdown-menu dropdown-menu-end">
-                <li><a className="dropdown-item" href="#">Solar Installation</a></li>
-                <li><a className="dropdown-item" href="#">Design and Quotation</a></li>
-                <li className="position-relative"> 
-                  <a className="dropdown-item dropdown-toggle" href="#">Repair or Rehabilitation</a>
-                  <ul className="dropdown-menu dropdown-submenu submenu-left">
-                    <li><a className="dropdown-item" href="#">Defective Solar</a></li>
-                    <li><a className="dropdown-item" href="#">Damaged Materials</a></li>
-                    <li><a className="dropdown-item" href="#">Non Functional System</a></li>
-                  </ul>
-                </li>
+              <ul className="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
+                <li><a className="dropdown-item" href="#residential">Residential Solar</a></li>
+                <li><a className="dropdown-item" href="#commercial">Commercial Solar</a></li>
+                <li><hr className="dropdown-divider" /></li>
+                <li><a className="dropdown-item" href="#maintenance">Maintenance</a></li>
               </ul>
             </li>
-
             <li className="nav-item">
-              <a className="nav-link" href="#faqs">FAQs</a>
+              <a className="nav-link px-3" href="#faqs">FAQS</a>
             </li>
 
-            {/* THE "BOOK NOW" CTA BUTTON */}
-            {/* ms-lg-3 adds a little gap on desktop so it doesn't touch FAQs */}
+            {/* UPDATED CALL TO ACTION */}
             <li className="nav-item ms-lg-3 mt-3 mt-lg-0">
               <a 
-                className="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" 
-                href="#book-now"
-                style={{ color: '#0f3443' }} // Dark teal text for contrast
+                href="/?page=booking" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn btn-warning rounded-pill px-4 fw-bold shadow-sm d-inline-flex align-items-center"
+                style={{ color: '#0f3443' }}
               >
-                Book Now
+                <i className="bi bi-calendar2-check-fill me-2"></i>
+                Get your Free Site Visit
               </a>
             </li>
-
           </ul>
         </div>
       </div>
