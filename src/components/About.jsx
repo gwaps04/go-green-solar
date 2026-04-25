@@ -2,7 +2,8 @@ import React from 'react';
 
 const About = () => {
   return (
-    <section className="bg-about-grid text-white py-5">
+    /* FIXED: Added id="about" so navigation knows where to scroll */
+    <section id="about" className="bg-about-grid text-white py-5">
       <div className="container py-4">
         
         {/* SECTION HEADER */}

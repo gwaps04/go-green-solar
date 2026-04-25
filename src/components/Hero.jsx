@@ -39,7 +39,7 @@ const Hero = () => {
       {/* ACTION BUTTON */}
       <div className="hero-overlay container-fluid">
         <a 
-          href="#about" 
+          href="/#about" 
           className="btn btn-warning btn-lg rounded-pill px-5 fw-bold shadow-lg mb-4"
           style={{ color: '#0f3443' }}
         >
