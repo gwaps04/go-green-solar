@@ -5,7 +5,8 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Packages from './components/Packages'; 
 import Services from './components/Services';
-import RoofGallery from './components/RoofGallery'; // NEW IMPORT
+import RoofGallery from './components/RoofGallery';
+import CustomerGallery from './components/CustomerGallery'; // NEW IMPORT
 import Brands from './components/Brands';
 import Testimonials from './components/Testimonials';
 import FAQs from './components/FAQs'; 
@@ -54,8 +55,9 @@ function App() {
       <About />
       <Packages />
       <Services />
-      {/* RENDERED AFTER SERVICES */}
       <RoofGallery /> 
+      {/* PLACED BELOW ROOF GALLERY */}
+      <CustomerGallery /> 
       <Brands />
       <Testimonials />
       <FAQs />
