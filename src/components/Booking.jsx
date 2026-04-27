@@ -100,12 +100,12 @@ const Booking = () => {
     try {
       const scheduledDateTime = `${formData.date}T${formData.time}+08:00`;
 
-      // 1. Verify Slot Availability
+      // 1. Verify Slot Availability (Corrected status to 'Cancelled')
       const { data: existingBooking, error: checkError } = await supabase
         .from('booking_schedule')
         .select('booking_id')
         .eq('booked_schedule', scheduledDateTime)
-        .neq('status', 'cancelled') 
+        .neq('status', 'Cancelled') 
         .maybeSingle();
 
       if (checkError) throw checkError;
@@ -157,13 +157,13 @@ const Booking = () => {
 
       if (addrError) throw addrError;
 
-      // 5. Finalize the Booking Schedule
+      // 5. Finalize the Booking Schedule (Updated to 'Pending' to pass DB Constraint)
       const { error: bError } = await supabase
         .from('booking_schedule')
         .insert([{
           prospect_id: prospect.prospect_id,
           booked_schedule: scheduledDateTime,
-          status: 'pending'
+          status: 'Pending'
         }]);
 
       if (bError) throw bError;
